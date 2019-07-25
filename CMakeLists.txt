@@ -124,6 +124,11 @@ add_definitions (-DCL_TARGET_OPENCL_VERSION=220)
 
 target_include_directories (OpenCL PRIVATE ${CMAKE_CURRENT_BINARY_DIR} loader)
 target_link_libraries (OpenCL ${CMAKE_DL_LIBS})
+if(MSVC)
+    target_compile_options(OpenCL PRIVATE /W4 /WX)
+else()
+    target_compile_options(OpenCL PRIVATE -Wall -Wextra -pedantic -Werror)
+endif()
 
 include (CTest)
 if (BUILD_TESTING)
