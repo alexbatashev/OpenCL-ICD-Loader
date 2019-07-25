@@ -31,6 +31,7 @@ static INIT_ONCE initialized = INIT_ONCE_STATIC_INIT;
  *
  */
 
+#pragma warning (disable:4100)
 // go through the list of vendors in the registry and call khrIcdVendorAdd 
 // for each vendor encountered
 BOOL CALLBACK khrIcdOsVendorsEnumerate(PINIT_ONCE InitOnce, PVOID Parameter, PVOID *lpContext)
@@ -117,6 +118,7 @@ BOOL CALLBACK khrIcdOsVendorsEnumerate(PINIT_ONCE InitOnce, PVOID Parameter, PVO
 
     return TRUE;
 }
+#pragma warning (default:4100)
 
 // go through the list of vendors only once
 void khrIcdOsVendorsEnumerateOnce()
@@ -143,7 +145,9 @@ void *khrIcdOsLibraryGetFunctionAddress(void *library, const char *functionName)
     {
         return NULL;
     }
-    return GetProcAddress( (HMODULE)library, functionName);
+#pragma warning (disable:4152)
+    return GetProcAddress( (HMODULE)library, (LPCSTR)functionName);
+#pragma warning (default:4152)
 }
 
 // unload a library.

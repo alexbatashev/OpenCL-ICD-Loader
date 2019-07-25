@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 2.8.11)
 
-project (OPENCL_ICD_LOADER)
+project (OPENCL_ICD_LOADER C)
 find_package (Threads REQUIRED)
 
 # The option below allows building the ICD Loader library as a shared library
@@ -125,7 +125,8 @@ add_definitions (-DCL_TARGET_OPENCL_VERSION=220)
 target_include_directories (OpenCL PRIVATE ${CMAKE_CURRENT_BINARY_DIR} loader)
 target_link_libraries (OpenCL ${CMAKE_DL_LIBS})
 if(MSVC)
-    target_compile_options(OpenCL PRIVATE /W4 /WX)
+    target_compile_options(OpenCL PRIVATE /W4 /WX /Zi)
+    set_property(TARGET OpenCL PROPERTY C_STANDARD 11)
 else()
     target_compile_options(OpenCL PRIVATE -Wall -Wextra -pedantic -Werror)
 endif()
